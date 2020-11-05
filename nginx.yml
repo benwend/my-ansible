@@ -1,0 +1,7 @@
+- hosts: webserver
+  tasks:
+          - name: Install light NGinx web server
+            apt:
+                    pkg: nginx-light
+                    state: present
+                    update_cache: true

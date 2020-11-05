@@ -5,3 +5,30 @@
                     pkg: nginx-light
                     state: present
                     update_cache: true
+
+          - name: Push Symfony virtual host configuration
+            copy:
+                    src: files/nginx/symfony
+                    dest: /etc/nginx/sites-available/symfony
+                    mode: 0640
+
+          - name: Disable the default Nginx virtualhost
+            file:
+                    dest: /etc/nginx/sites-enabled/default
+                    state: absent
+            notify:
+                    - reload nginx
+
+          - name: Activates symfony virtualhost
+            file:
+                    src: /etc/nginx/sites-available/symfony
+                    dest: /etc/nginx/sites-enabled/symfony
+                    state: link
+            notify:
+                    - reload nginx
+
+  handlers:
+          - name: reload nginx
+            service:
+                    name: nginx
+                    state: reloaded

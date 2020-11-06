@@ -1,9 +1,18 @@
+---
+####.
+#
+# Overview: Playbook to bootstrap a new NGINX server for configuration management.
+# Applies to: development
+# Description:
+#   Ensures that a host has NGINX installed
+#
+###########
 - hosts: webserver
   tasks:
-          - name: Install light NGinx web server
+          - name: Install light-NGINX / PHP and modules
             apt:
-                    pkg: nginx-light
-                    state: present
+                    pkg: ["nginx-light", "php-fpm", "php-curl", "php-redis", "php-pgsql", "php-gd", "php-intl", "php-memcached", "php-amqp"]
+                    state: latest
                     update_cache: true
 
           - name: Push Symfony virtual host configuration
@@ -12,23 +21,48 @@
                     dest: /etc/nginx/sites-available/symfony
                     mode: 0640
 
-          - name: Disable the default Nginx virtualhost
+          - name: Create Symfony log repository
             file:
-                    dest: /etc/nginx/sites-enabled/default
-                    state: absent
-            notify:
-                    - reload nginx
+                    path: /var/log/nginx/symfony
+                    state: directory
 
-          - name: Activates symfony virtualhost
+          - name: Check our configuration
+            command: nginx -t
+
+          - name: Create Symfony wwww repository
+            file:
+                    path: /var/www/symfony
+                    state: directory
+
+          - name: Change owner
+            command: 'chown www-data: -R /var/www/symfony'
+
+          - name: Change mode
+            command: 'chmod a+r -R /var/www/symfony'
+
+          - name: Push PHP test file
+            copy:
+                    src: files/nginx/index.php
+                    dest: /var/www/symfony/index.php
+                    mode: 0640
+
+          - name: Activate symfony virtualhost
             file:
                     src: /etc/nginx/sites-available/symfony
                     dest: /etc/nginx/sites-enabled/symfony
                     state: link
             notify:
-                    - reload nginx
+                    - Reload nginx
+
+          - name: Disable the default Nginx virtualhost
+            file:
+                    dest: /etc/nginx/sites-enabled/default
+                    state: absent
+            notify:
+                    - Reload nginx
 
   handlers:
-          - name: reload nginx
+          - name: Reload nginx
             service:
                     name: nginx
                     state: reloaded

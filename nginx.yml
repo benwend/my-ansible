@@ -11,7 +11,17 @@
   tasks:
           - name: Install light-NGINX / PHP and modules
             apt:
-                    pkg: ["nginx-light", "php-fpm", "php-curl", "php-redis", "php-pgsql", "php-gd", "php-intl", "php-memcached", "php-amqp"]
+                    pkg:
+                            - nginx-light
+                            - php-fpm
+                            - php-curl
+                            - php-redis
+                            - php-pgsql
+                            - php-gd
+                            - php-intl
+                            - php-memcached
+                            - php-amqp
+                            - git
                     state: latest
                     update_cache: true
 
@@ -28,11 +38,36 @@
 
           - name: Check our configuration
             command: nginx -t
+            register: result
+            ignore_errors: True
 
-          - name: Create Symfony wwww repository
+          - name: Rolling back - Removing our log repository
+            file:
+                    path: /var/log/nginx/symfony
+                    state: absent
+            when: result is failed
+
+          - name: Rolling back - Removing our virtualhost
+            file:
+                    path: /etc/nginx/sites-available/symfony
+                    state: absent
+            when: result is failed
+
+          - name: Rolling back - Ending playbook
+            fail:
+                    msg: "ERROR: Nginx configuration file is not valid. Please check that before re-running the playbook."
+            when: result is failed
+
+          - name: Create web Symfony repository (env=dev)
             file:
                     path: /var/www/symfony
                     state: directory
+
+            #- name: Deploy our awesome application
+            #git:
+            #        repo: https://github.com/benwend/Cernunnos.git
+            #        dest: /var/www/symfony
+            #tags: deploy
 
           - name: Change owner
             command: 'chown www-data: -R /var/www/symfony'

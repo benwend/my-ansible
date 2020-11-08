@@ -1,0 +1,19 @@
+#####
+# file: apt sources.list
+# date: 08/11/2020
+##
+#
+# Default
+deb http://ftp.iut-bm.univ-fcomte.fr/debian/ buster main contrib non-free
+#deb-src http://ftp.iut-bm.univ-fcomte.fr/debian/ buster main contrib non-free
+
+deb http://security.debian.org/debian-security buster/updates main contrib non-free
+#deb-src http://security.debian.org/debian-security buster/updates main contrib non-free
+
+# buster-updates, previously known as 'volatile'
+deb http://ftp.iut-bm.univ-fcomte.fr/debian/ buster-updates main contrib non-free
+#deb-src http://ftp.iut-bm.univ-fcomte.fr/debian/ buster-updates main contrib non-free
+
+# backports
+deb http://deb.debian.org/debian buster-backports main contrib non-free
+#deb-src http://deb.debian.org/debian buster-backports main contrib non-free

@@ -1,0 +1,41 @@
+---
+####.
+#
+# Overview: Playbook to bootstrap a new NGINX server for configuration management.
+# Applies to: default
+# Description:
+#   Ensures that a host has NGINX installed
+#
+###########
+- hosts: linux
+  tasks:
+          - name: Push the complete source list
+            copy:
+                    src: files/default/apt/sources.list
+                    dest: /etc/apt/sources.list
+                    mode: 0644
+            notify: Update APT
+
+          - name: Install the base packages
+            apt:
+                    pkg:
+                            - sudo
+                            - htop
+                            - bash-completion
+                            - vim
+                            - indent
+                            - ctags
+                    state: latest
+                    update_cache: true
+
+  handlers:
+          - name: Update APT
+            become: true
+            apt:
+                    autoclean: yes
+                    autoremove: yes
+                    install_recommends: no
+                    purge: yes
+                    upgrade: safe
+                    update_cache: yes
+

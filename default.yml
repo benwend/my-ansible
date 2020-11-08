@@ -25,17 +25,17 @@
                             - vim
                             - indent
                             - ctags
+                    install_recommends: no
                     state: latest
                     update_cache: true
 
   handlers:
           - name: Update APT
-            become: true
             apt:
                     autoclean: yes
                     autoremove: yes
                     install_recommends: no
                     purge: yes
-                    upgrade: safe
+                    upgrade: full
                     update_cache: yes
 

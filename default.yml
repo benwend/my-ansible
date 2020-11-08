@@ -7,7 +7,7 @@
 #   Ensures that a host has NGINX installed
 #
 ###########
-- hosts: linux
+- hosts: debian10
   tasks:
           - name: Push the complete source list
             copy:

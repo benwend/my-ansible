@@ -8,7 +8,7 @@
 #   - You can enter hostnames or ip addresses
 #   - A hostname/ip can be a member of multiple groups
 #
-[linux]
+[debian10]
 osboxes-web     ansible_host=192.168.0.10 ansible_user=root
 osboxes-db      ansible_host=192.168.0.11 ansible_user=root
 osboxes-rmq     ansible_host=192.168.0.12 ansible_user=root

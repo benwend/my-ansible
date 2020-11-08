@@ -63,6 +63,12 @@
                     path: /var/www/symfony
                     state: directory
 
+          - name: Push PHP test file
+            copy:
+                    src: files/nginx/index.php
+                    dest: /var/www/symfony/index.php
+                    mode: 0640
+
             #- name: Deploy our awesome application
             #git:
             #        repo: https://github.com/benwend/Cernunnos.git
@@ -74,12 +80,6 @@
 
           - name: Change mode
             command: 'chmod a+r -R /var/www/symfony'
-
-          - name: Push PHP test file
-            copy:
-                    src: files/nginx/index.php
-                    dest: /var/www/symfony/index.php
-                    mode: 0640
 
           - name: Activate symfony virtualhost
             file:

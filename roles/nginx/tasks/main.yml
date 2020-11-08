@@ -1,0 +1,83 @@
+---
+- name: Install light-NGINX / PHP and modules
+  apt:
+          pkg:
+                  - nginx-light
+                  - php-fpm
+                  - php-curl
+                  - php-redis
+                  - php-pgsql
+                  - php-gd
+                  - php-intl
+                  - php-memcached
+                  - php-amqp
+                  - git
+          state: latest
+          update_cache: true
+
+- name: Push Symfony virtual host configuration
+  copy:
+          src: files/nginx/symfony
+          dest: /etc/nginx/sites-available/symfony
+          mode: 0640
+          owner: root
+
+- name: Create Symfony log repository
+  file:
+          path: /var/log/nginx/symfony
+          state: directory
+
+- name: Check our configuration
+  command: nginx -t
+  register: result
+  ignore_errors: True
+
+- name: Rolling back - Removing our log repository
+  file:
+          path: /var/log/nginx/symfony
+          state: absent
+          when: result is failed
+- name: Rolling back - Removing our virtualhost
+  file:
+          path: /etc/nginx/sites-available/symfony
+          state: absent
+          when: result is failed
+- name: Rolling back - Ending playbook
+  fail:
+          msg: "ERROR: Nginx configuration file is not valid. Please check that before re-running the playbook."
+          when: result is failed
+- name: Create web Symfony repository (env=dev)
+  file:
+          path: /var/www/symfony
+          state: directory
+          mode: 0666
+          owner: www-data
+          group: www-data
+- name: Push PHP test file
+  copy:
+          src: files/nginx/index.php
+          dest: /var/www/symfony/index.php
+          mode: 0644
+          owner: www-data
+          group: www-data
+
+#- name: Deploy our awesome application
+#  git:
+#         repo: https://github.com/benwend/Cernunnos.git
+#         dest: /var/www/symfony
+#  tags: deploy
+
+- name: Activate symfony virtualhost
+  file:
+          src: /etc/nginx/sites-available/symfony
+          dest: /etc/nginx/sites-enabled/symfony
+          state: link
+          notify:
+                  - Reload nginx
+
+- name: Disable the default Nginx virtualhost
+  file:
+          dest: /etc/nginx/sites-enabled/default
+          state: absent
+          notify:
+                  - Reload nginx

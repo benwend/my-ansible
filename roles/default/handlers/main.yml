@@ -7,3 +7,8 @@
           purge: yes
           upgrade: full
           update_cache: yes
+
+- name: Reload SSH
+  systemd:
+          name: ssh
+          state: reloaded

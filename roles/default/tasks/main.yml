@@ -20,3 +20,16 @@
           install_recommends: no
           state: latest
           update_cache: true
+
+- name: Backup the original SSH file config
+  copy:
+          src: /etc/ssh/sshd_config
+          dest: /etc/ssh/sshd_config.dist
+          mode: 0644
+
+- name: Push the SSH file config
+  copy:
+          src: files/sshd_config
+          dest: /etc/ssh/sshd_config
+          mode: 0644
+  notify: Reload SSH

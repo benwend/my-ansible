@@ -1,4 +1,10 @@
 ---
+- name: Backup the original source list
+  copy:
+          src: /etc/apt/sources.list
+          dest: /etc/apt/sources.list.dist
+          mode: 0644
+
 - name: Push the complete source list
   copy:
           src: files/sources.list

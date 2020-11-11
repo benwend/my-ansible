@@ -1,8 +1,4 @@
 ---
-- hosts: debian10
-  roles:
-          - default
-
 - hosts: webserver
   roles:
           - nginx

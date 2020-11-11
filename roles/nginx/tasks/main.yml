@@ -81,12 +81,6 @@
           owner: www-data
           group: www-data
 
-#- name: Deploy our awesome application
-#  git:
-#         repo: https://github.com/benwend/Cernunnos.git
-#         dest: /var/www/symfony
-#  tags: deploy
-
 - name: Activate symfony virtualhost
   file:
           src: /etc/nginx/sites-available/symfony

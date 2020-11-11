@@ -1,0 +1,24 @@
+Host *
+  IdentitiesOnly yes
+  Port 22
+  User osboxes
+  IdentityFile ~/.ssh/id_ecdsa
+  ControlMaster auto
+  ControlPath ~/.ssh/%r@%h:%p
+  ControlPersist 10m
+  Compression yes
+
+Host osboxes-srv
+  HostName 192.168.0.10
+
+Host osboxes-db
+  HostName 192.168.0.11
+
+Host osboxes-rmq
+  HostName 192.168.0.12
+
+Host osboxes-redis
+  HostName 192.168.0.13
+
+Host osboxes-ansible
+  HostName 192.168.0.14

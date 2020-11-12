@@ -1,0 +1,5 @@
+---
+- name: Reload postgres
+  systemd:
+          name: postgresql
+          state: reloaded

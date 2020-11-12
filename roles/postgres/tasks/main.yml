@@ -1,0 +1,51 @@
+---
+- name: Install PostgreSQL dependencies
+  apt:
+          pkg:
+                  - postgresql
+          state: latest
+          update_cache: true
+
+- name: Backup the dist PostgreSQL configuration
+  command: cp -a /etc/postgresql/11/main/postgresql.conf /etc/postgresql/11/main/postgresql.conf.bck
+
+- name: Push the PostgreSQL Configuration
+  copy:
+          src: templates/postgresql.conf
+          dest: /etc/postgresql/11/main/postgresql.conf
+          mode: 0644
+          owner: postgres
+
+- name: Backup the dist pg_hba Configuration
+  command: cp -a /etc/postgresql/11/main/pg_hba.conf /etc/postgresql/11/main/pg_hba.conf.bck
+
+- name: Push the pg_hba configuration
+  copy:
+          src: templates/pg_hba.conf
+          dest: /etc/postgresql/11/main/pg_hba.conf
+          mode: 0644
+          owner: postgres
+  notify:
+          - Reload postgres
+
+- name: Ensure Postgresql is running
+  systemd:
+          name: postgresql
+          state: started
+  register: result
+  ignore_errors: True
+
+- name: Rolling back - Push the postgres config
+  command: mv /etc/postgresql/11/main/pg_hba.conf.bck /etc/postgresql/11/main/pg_hba.conf
+  when: result is failed
+
+- name: Rolling back - Push the postgres config
+  command: mv /etc/postgresql/11/main/postgresql.conf.bck /etc/postgresql/11/main/postgresql.conf
+  when: result is failed
+
+- name: Rolling back - Ending playbook
+  fail:
+          msg: "ERROR: PostgreSQL configuration file is not valid. Please check that before re-running the playbook."
+  when: result is failed
+  notify:
+          - Reload postgres

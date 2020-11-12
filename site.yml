@@ -2,3 +2,7 @@
 - hosts: webserver
   roles:
           - nginx
+
+- hosts: db
+  roles:
+          - postgres

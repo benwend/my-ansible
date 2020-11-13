@@ -1,4 +1,6 @@
-#! /usr/bin/env sh
+#! /usr/bin/env bash
+# Composer installer
+set -euo pipefail
 
 declare -i RESULT=0
 

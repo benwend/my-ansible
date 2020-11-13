@@ -4,7 +4,7 @@
 
 - name: Push the complete source list
   copy:
-          src: files/sources.list
+          src: templates/sources.list
           dest: /etc/apt/sources.list
           mode: 0644
   notify: Update APT
@@ -26,9 +26,9 @@
 - name: Backup the dist SSHd config file
   command: cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.dist
 
-- name: Push the SSH file config
+- name: Push the SSHd config file
   copy:
-          src: files/sshd_config
+          src: templates/sshd_config
           dest: /etc/ssh/sshd_config
           mode: 0644
   notify: Reload SSH

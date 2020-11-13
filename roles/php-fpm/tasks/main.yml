@@ -2,6 +2,7 @@
 - name: Install PHP-FPM and modules
   apt:
           pkg:
+                  - php-apcu
                   - php-amqp
                   - php-curl
                   - php-fpm
@@ -11,6 +12,7 @@
                   - php-memcached
                   - php-pgsql
                   - php-redis
+                  - php-xdebug
                   - php-xml
                   - php-zip
           state: latest

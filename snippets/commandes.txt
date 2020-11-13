@@ -1,0 +1,3 @@
+createuser -d -P symfony
+createdb -O symfony -l fr_FR.UTF-8 -E UTF-8 symfony -e -T template0
+psql -U symfony -h localhost symfony

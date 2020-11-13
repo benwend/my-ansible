@@ -78,3 +78,19 @@
   fail:
           msg: "ERROR: Impossible to install Symfony CLI. Please check that before re-running the playbook."
   when: result is failed
+
+- name: Push Phar installer
+  copy:
+          src: files/phive_install.sh
+          dest: /opt/phive_install.sh
+          mode: 0744
+
+- name: Install Phar (Phive)
+  command: bash /opt/phive_install.sh
+  register: result
+  ignore_errors: True
+
+- name: Rolling back - Ending playbook
+  fail:
+          msg: "ERROR: Impossible to install Phive. Please check that before re-running the playbook."
+  when: result is failed

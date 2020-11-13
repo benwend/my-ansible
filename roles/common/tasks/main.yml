@@ -1,9 +1,6 @@
 ---
 - name: Backup the original source list
-  copy:
-          src: /etc/apt/sources.list
-          dest: /etc/apt/sources.list.dist
-          mode: 0644
+  command: cp -a /etc/apt/sources.list /etc/apt/sources.list.dist
 
 - name: Push the complete source list
   copy:
@@ -26,11 +23,8 @@
           state: latest
           update_cache: true
 
-- name: Backup the original SSH file config
-  copy:
-          src: /etc/ssh/sshd_config
-          dest: /etc/ssh/sshd_config.dist
-          mode: 0644
+- name: Backup the dist SSHd config file
+  command: cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.dist
 
 - name: Push the SSH file config
   copy:

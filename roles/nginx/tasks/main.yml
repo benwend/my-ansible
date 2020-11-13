@@ -1,39 +1,15 @@
 ---
-- name: Install light-NGINX / PHP and modules
+- name: Install light-NGINX and modules
   apt:
           pkg:
                   - nginx-light
-                  - php-amqp
-                  - php-curl
-                  - php-fpm
-                  - php-gd
-                  - php-intl
-                  - php-mbstring
-                  - php-memcached
-                  - php-pgsql
-                  - php-redis
-                  - php-xml
                   - git
           state: latest
           update_cache: true
 
-- name: Push the development PHP-FPM Configuration
-  copy:
-          src: files/php-development.fpm.ini
-          dest: /etc/php/7.3/fpm/php.ini
-          mode: 0644
-          owner: root
-
-- name: Push the PHP-CLI Configuration
-  copy:
-          src: files/php.cli.ini
-          dest: /etc/php/7.3/cli/php.ini
-          mode: 0644
-          owner: root
-
 - name: Push Symfony virtual host configuration
   copy:
-          src: files/symfony
+          src: templates/symfony
           dest: /etc/nginx/sites-available/symfony
           mode: 0644
           owner: root
@@ -95,38 +71,3 @@
           state: absent
   notify:
           - Reload nginx
-
-- name: Push Composer installer
-  copy:
-          src: files/composer_install.sh
-          dest: /opt/composer_install.sh
-          mode: 0744
-
-- name: Install Composer
-  command: sh /opt/composer_install.sh
-  register: result
-  ignore_errors: True
-
-- name: Rolling back - Removing installer
-  file:
-          path: /opt/composer_install.sh
-          state: absent
-  when: result is failed
-
-- name: Rolling back - Ending playbook
-  fail:
-          msg: "ERROR: Impossible to install Composer. Please check that before re-running the playbook."
-  when: result is failed
-
-- name: Pull Symfony CLI installer
-  command: wget https://get.symfony.com/cli/installer -O /opt/symfony_install.sh
-
-- name: Install Symfony CLI
-  command: bash /opt/symfony_install.sh --install-dir=/usr/local/bin
-  register: result
-  ignore_errors: True
-
-- name: Rolling back - Ending playbook
-  fail:
-          msg: "ERROR: Impossible to install Symfony CLI. Please check that before re-running the playbook."
-  when: result is failed

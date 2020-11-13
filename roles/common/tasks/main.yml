@@ -15,14 +15,13 @@
 - name: Install the base packages
   apt:
           pkg:
-                  - sudo
-                  - htop
                   - bash-completion
-                  - vim
-                  - indent
-                  - ctags
-                  - pigz
                   - dos2unix
+                  - htop
+                  - pigz
+                  - tree
+                  - vim
+                  - sudo
           install_recommends: no
           state: latest
           update_cache: true

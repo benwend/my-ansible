@@ -1,0 +1,9 @@
+---
+uname_s: Linux
+uname_m: x86_64
+
+db_name: symfony 
+db_user: symfony
+db_password: symfony
+
+docker-compose: 1.27.4

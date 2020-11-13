@@ -1,0 +1,120 @@
+---
+# DOCKER | TASKS | INSTALL
+# doc:
+#  - https://docs.docker.com/engine/install/debian/ (install by apt/.deb/script and uninstall docker)
+#  - https://docs.docker.com/engine/install/linux-postinstall/
+#
+- name: Add useful packages
+  apt:
+          pkg:
+                  - apt-transport-https
+                  - ca-certificates
+                  - curl
+                  - gnupg-agent
+                  - software-properties-common
+          state: latest
+          install_recommends: no
+  tags: install
+                 
+- name: Add the apt signing key
+  apt_key:
+          id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+          url: https://download.docker.com/linux/debian/gpg
+          state: present
+  tags: install
+
+- name: Add docker apt repo
+  apt_repository:
+          repo: deb [arch=amd64] https://download.docker.com/linux/debian buster stable
+          state: present
+          filename: docker
+  tags: install
+
+- name: Install docker engine
+  apt:
+          pkg:
+                  - docker-ce
+                  - docker-ce-cli
+                  - containerd.io
+          state: present
+          update_cache: True
+          install_recommends: no
+  tags: install
+
+- name: Check docker installation
+  command: docker run hello-world
+  tags: install
+
+- name: Download Docker-compose
+  get_url:
+          url: https://github.com/docker/compose/releases/download/{{ docker-compose }}/docker-compose-{{ uname_s }}-{{ uname_m }}
+          dest: /usr/local/bin/docker-compose
+          mode: 0755
+  tags: install
+
+- name: Ensure bash auto-completion for Docker-compose
+  get_url:
+          url: https://raw.githubusercontent.com/docker/compose/{{ docker-compose }}/contrib/completion/bash/docker-compose
+          dest: /etc/bash_completion.d/docker-compose
+          mode: 0644
+  tags: install
+
+- name: Create the docker group
+  group:
+          name: docker
+          state: present
+  tags: install
+
+##
+# STEPS TO UNINSTALL DOCKER
+##
+- name: Uninstall docker - Clean 1/2
+  file:
+          path: /var/lib/docker
+          state: absent
+  tags: uninstall
+
+- name: Uninstall docker - Clean 2/2
+  file:
+          path: /var/lib/container
+          state: absent
+  tags: uninstall
+
+- name: Uninstall docker engine
+  apt:
+          pkg:
+                  - docker-ce
+                  - docker-ce-cli
+                  - containerd.io
+          state: absent
+  tags: uninstall
+
+- name: Remove docker apt repo
+  apt_repository:
+          state: absent
+          filename: docker
+  tags: uninstall
+                 
+- name: Remove the apt signing key
+  apt_key:
+          id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+          state: absent
+  tags: uninstall
+
+- name: Uninstall docker-compose
+  file:
+          path: /usr/local/bin/docker-compose
+          state: absent
+  tags: uninstall
+
+- name: Remove the auto-completion
+  file:
+          path: /etc/bash_completion.d/docker-compose
+          state: absent
+  tags: uninstall
+
+- name: Delete the docker group
+  group:
+          name: docker
+          state: absent
+  tags: uninstall

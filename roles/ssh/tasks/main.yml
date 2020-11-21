@@ -1,0 +1,31 @@
+---
+- name: Backup the dist SSHd config file
+  command: cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.dist
+
+- name: Push the SSHd config file
+  copy:
+          src: templates/sshd_config
+          dest: /etc/ssh/sshd_config
+          mode: 0644
+  notify: Reload SSH
+
+- name: Backup the dist SSH client config file
+  command: cp -a /etc/ssh/ssh_config /etc/ssh/ssh_config.dist
+
+- name: Push the ssh client config file
+  copy:
+          src: templates/ssh_config
+          dest: /etc/ssh/ssh_config
+          mode: 0644
+
+- name: Create the SSH repository in /etc/skel
+  file:
+          path: /etc/skel/.ssh
+          state: directory
+          mode: 0700
+
+- name: Push the SSH client template in /etc/skel
+  copy:
+          src: templates/config.ssh
+          dest: /etc/skel/.ssh/config
+          mode: 0700

@@ -2,3 +2,4 @@
 - hosts: debian10
   roles:
           - common
+          - ssh

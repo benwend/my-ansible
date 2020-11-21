@@ -47,14 +47,14 @@
 
 - name: Download Docker-compose
   get_url:
-          url: https://github.com/docker/compose/releases/download/{{ docker-compose }}/docker-compose-{{ uname_s }}-{{ uname_m }}
+          url: "https://github.com/docker/compose/releases/download/{{ docker_compose }}/docker-compose-{{ uname_s }}-{{ uname_m }}"
           dest: /usr/local/bin/docker-compose
           mode: 0755
   tags: install
 
 - name: Ensure bash auto-completion for Docker-compose
   get_url:
-          url: https://raw.githubusercontent.com/docker/compose/{{ docker-compose }}/contrib/completion/bash/docker-compose
+          url: https://raw.githubusercontent.com/docker/compose/{{ docker_compose }}/contrib/completion/bash/docker-compose
           dest: /etc/bash_completion.d/docker-compose
           mode: 0644
   tags: install

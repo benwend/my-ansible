@@ -6,4 +6,4 @@ db_name: symfony
 db_user: symfony
 db_password: symfony
 
-docker-compose: 1.27.4
+docker_compose: 1.27.4

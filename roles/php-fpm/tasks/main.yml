@@ -69,7 +69,10 @@
   when: result is failed
 
 - name: Pull Symfony CLI installer
-  command: wget https://get.symfony.com/cli/installer -O /opt/symfony_install.sh
+  get_url:
+          url: https://get.symfony.com/cli/installer
+          dest: /opt/symfony_install.sh
+          mode: 0755
 
 - name: Install Symfony CLI
   command: bash /opt/symfony_install.sh --install-dir=/usr/local/bin

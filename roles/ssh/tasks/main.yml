@@ -1,6 +1,7 @@
 ---
 - name: Backup the dist SSHd config file
   command: cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.dist
+  tags: install
 
 - name: Push the SSHd config file
   copy:
@@ -11,6 +12,7 @@
 
 - name: Backup the dist SSH client config file
   command: cp -a /etc/ssh/ssh_config /etc/ssh/ssh_config.dist
+  tags: install
 
 - name: Push the ssh client config file
   copy:

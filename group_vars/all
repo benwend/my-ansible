@@ -7,3 +7,5 @@ db_user: symfony
 db_password: symfony
 
 docker_compose: 1.27.4
+
+timezone: Europe/Paris

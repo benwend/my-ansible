@@ -22,3 +22,16 @@
           install_recommends: no
           state: latest
           update_cache: true
+
+- name: Configure Timesyncd
+  copy:
+          src: templates/timesyncd.conf
+          dest: /etc/systemd/timesyncd.conf
+          mode: 0644
+  tags: install
+
+- name: Set the timezone
+  timezone:
+          name: "{{ timezone }}"
+  notify: Restart crond
+  tags: install

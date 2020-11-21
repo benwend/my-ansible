@@ -7,3 +7,9 @@
           purge: yes
           upgrade: full
           update_cache: yes
+
+- name: Restart crond
+  systemd:
+          name: cron
+          state: restarted
+          daemon_reload: yes

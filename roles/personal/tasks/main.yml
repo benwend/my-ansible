@@ -1,0 +1,9 @@
+---
+- name: Install the base packages
+  apt:
+          pkg:
+                  - clementine
+                  - keepass2
+                  - tmux
+          install_recommends: no
+          state: latest

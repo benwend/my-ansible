@@ -9,3 +9,4 @@ db_password: symfony
 docker_compose: 1.27.4
 
 timezone: Europe/Paris
+locale: fr_FR.UTF-8

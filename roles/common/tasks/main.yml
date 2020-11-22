@@ -34,3 +34,19 @@
   timezone:
           name: "{{ timezone }}"
   notify: Restart crond
+
+- name: Ensure EN locale exists
+  locale_gen:
+          name: "en_US.UTF-8"
+          state: present
+
+- name: Ensure local locale exists
+  locale_gen:
+          name: "{{ locale }}"
+          state: present
+
+- name: Set the locale
+  command: "localectl set-locale LANG={{ locale }}"
+
+- name: Generate the new locale
+  command: locale-gen

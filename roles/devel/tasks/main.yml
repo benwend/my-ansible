@@ -16,3 +16,9 @@
           src: templates/gitconfig
           dest: /etc/skel/.gitconfig
           mode: 0644
+
+- name: Push the Git config file for my user
+  copy:
+          src: templates/gitconfig
+          dest: "/home/{{ user }}/.gitconfig"
+          mode: 0644

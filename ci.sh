@@ -22,3 +22,4 @@ echo "################################"
 echo "### Starting tests"
 
 find . -maxdepth 1 -name '*.yml'| xargs -n1  ansible-playbook --syntax-check --list-tasks -i /etc/ansible/hosts
+find . -name '*.yml'| xargs -n1  yamllint

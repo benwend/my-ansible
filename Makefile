@@ -1,3 +1,5 @@
+SHELL := /usr/bin/env bash
+
 .PHONY = install
 
 all: install init test
@@ -19,3 +21,7 @@ init:
 
 test:
 	ansible all -m ping
+
+dev:
+	apt install -y yamllint
+	cp snippets/pre-commit .git/hook/pre-commit

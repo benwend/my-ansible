@@ -4,8 +4,15 @@
           pkg:
                   - figlet
                   - git
+                  - kdiff3
                   - openjdk-11-jre
                   - python-pip
                   - python3-pip
           install_recommends: no
           state: latest
+
+- name: Push the Git config file in /etc/skel
+  copy:
+          src: templates/gitconfig
+          dest: /etc/skel/.gitconfig
+          mode: 0644

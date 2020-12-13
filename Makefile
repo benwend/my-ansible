@@ -20,7 +20,7 @@ init:
 	ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.0.{10,11,12,13,14}
 
 test:
-	ansible all -m ping
+	ansible all -m ping --one-line
 
 dev:
 	apt install -y yamllint

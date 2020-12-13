@@ -1,4 +1,4 @@
-Ansible-symfony
+My Ansible
 ===============
 
 This git project was created to install my personal development environment for my Cernunnos project and also test the automatisation of the installation of my personal computer.

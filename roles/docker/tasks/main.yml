@@ -14,7 +14,7 @@
                   - software-properties-common
           state: latest
           install_recommends: no
-                 
+
 - name: Add the apt signing key
   apt_key:
           id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
@@ -48,7 +48,7 @@
 
 - name: Ensure bash auto-completion for Docker-compose
   get_url:
-          url: https://raw.githubusercontent.com/docker/compose/{{ docker_compose }}/contrib/completion/bash/docker-compose
+          url: "https://raw.githubusercontent.com/docker/compose/{{ docker_compose }}/contrib/completion/bash/docker-compose"
           dest: /etc/bash_completion.d/docker-compose
           mode: 0644
 
@@ -86,7 +86,7 @@
           state: absent
           filename: docker
   tags: uninstall
-                 
+
 - name: Remove the apt signing key
   apt_key:
           id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88

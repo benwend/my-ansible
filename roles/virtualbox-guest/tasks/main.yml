@@ -3,9 +3,9 @@
   apt:
           pkg:
                   - build-essential
-                  #- dkms
+                  # - dkms
                   - module-assistant
-                  #- virtualbox-guest-additions-iso
+                  # - virtualbox-guest-additions-iso
           install_recommends: no
           state: present
   tags: additions

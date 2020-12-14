@@ -1,0 +1,14 @@
+# LS
+alias l='ls -C --classify --human-readable' # short options = -F -h
+alias la='l -A'
+alias ll='l -l'
+alias lt='ls -lhFtr'
+alias lla='ll -A'
+
+# SYSTEME
+alias df='df -h'
+alias du='du -h'
+alias sag='ssh-agent /bin/bash'
+alias sad='ssh-add $1'
+alias gdpkg='dpkg -l | grep $1 | less'
+alias gapt='apt search $1 | less'

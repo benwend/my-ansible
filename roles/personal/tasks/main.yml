@@ -13,10 +13,34 @@
   copy:
           src: templates/tmux.conf
           dest: /etc/skel/.tmux.conf
-          mode: 644
+          mode: 0644
 
 - name: Push also the tmux config for my user
   copy:
           src: templates/tmux.conf
           dest: "/home/{{ user }}/.tmux.conf"
-          mode: 644
+          mode: 0644
+
+- name: Push also the tmux config for the user root
+  copy:
+          src: templates/tmux.conf
+          dest: /root/.tmux.conf
+          mode: 0644
+
+- name: Push bashrc file for my user
+  copy:
+          src: templates/bashrc
+          dest: "/home/{{ user }}/.bashrc"
+          mode: 0644
+
+- name: Push alias config file for my user
+  copy:
+          src: templates/bash_aliases
+          dest: "/home/{{ user }}/.bash_aliases"
+          mode: 0644
+
+- name: Push bashrc file for the user root
+  copy:
+          src: templates/bashrc-root
+          dest: /root/.bashrc
+          mode: 0644

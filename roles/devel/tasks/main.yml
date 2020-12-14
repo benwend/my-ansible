@@ -8,6 +8,8 @@
                   - openjdk-11-jre
                   - python-pip
                   - python3-pip
+                  - ipython
+                  - ipython3
           install_recommends: no
           state: latest
 

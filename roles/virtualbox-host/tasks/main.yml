@@ -1,0 +1,25 @@
+---
+- name: Backup the original source list
+  command: cp -a /etc/apt/sources.list.d/virtualbox.list /etc/apt/sources.list.d/virtualbox.list.save
+  tags: install
+
+- name: Push the complete source list
+  copy:
+          src: templates/virtualbox.list
+          dest: /etc/apt/virtualbox.list
+          mode: 0644
+  notify: Update APT
+
+- name: Install the base packages
+  apt:
+          pkg:
+                - virtualbox-6.1
+          install_recommends: no
+          state: latest
+          update_cache: true
+
+- name: Download the additions
+  get_url:
+          url: https://download.virtualbox.org/virtualbox/6.1.18/Oracle_VM_VirtualBox_Extension_Pack-6.1.18.vbox-extpack
+          dest: /opt/Oracle_VM_VirtualBox_Extension_Pack-6.1.18.vbox-extpack
+          mode: 0755

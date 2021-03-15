@@ -11,12 +11,6 @@
           install_recommends: no
           state: latest
 
-- name: Push the tmux config template in /etc/skel
-  copy:
-          src: templates/tmux.conf
-          dest: /etc/skel/.tmux.conf
-          mode: 0644
-
 - name: Push also the tmux config for my user
   copy:
           src: templates/tmux.conf

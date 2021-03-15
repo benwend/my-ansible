@@ -24,6 +24,12 @@
           state: latest
           update_cache: true
 
+- name: Add the user in the sudo group
+  user:
+          name: "{{ user }}"
+          group: sudo
+          append: yes
+
 - name: Configure Timesyncd
   copy:
           src: templates/timesyncd.conf

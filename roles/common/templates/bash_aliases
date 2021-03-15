@@ -1,0 +1,17 @@
+# LS
+alias ls='ls ${COLOR_OPTION}'
+alias l='ls -C --classify --human-readable' # short options = -F -h
+alias la='l -A'
+alias ll='l -l'
+alias llt='ll -t'
+alias lla='ll -A'
+
+# GREP
+alias grep='grep ${COLOR_OPTION}'
+alias fgrep='fgrep ${COLOR_OPTION}'
+alias egrep='egrep ${COLOR_OPTION}'
+
+# SYSTEME
+alias df='df -h'
+alias du='du -h'
+alias dpkgg='dpkg -l | grep -e $1'

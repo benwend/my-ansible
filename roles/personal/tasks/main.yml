@@ -4,6 +4,8 @@
           pkg:
                   - clementine
                   - keepass2
+                  - manpages-fr
+                  - manpages-fr-dev
                   - tmux
                   - vlc
           install_recommends: no

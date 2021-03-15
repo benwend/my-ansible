@@ -78,6 +78,18 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     export COLOR_OPTION='--color=auto'
+
+    man() {
+        LESS_TERMCAP_mb=$'\e[1;33m' \
+        LESS_TERMCAP_md=$'\e[1;31m' \
+        LESS_TERMCAP_me=$'\e[0m' \
+        LESS_TERMCAP_us=$'\e[01;32m' \
+        LESS_TERMCAP_ue=$'\e[0m' \
+        LESS_TERMCAP_so=$'\e[45;93m' \
+        LESS_TERMCAP_se=$'\e[0m' \
+        command man "$@"
+    }
+
 fi
 
 # colored GCC warnings and errors

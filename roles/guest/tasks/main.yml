@@ -1,0 +1,13 @@
+---
+- name: Install the base packages
+  apt:
+          pkg:
+                  - most
+          install_recommends: no
+          state: latest
+
+- name: Set most as the Default Pager for standard user
+  command: "echo 'export PAGER=\"most\"' >> /home/{{ user }}/.bashrc"
+
+- name: Set most as the Default Pager for the user root
+  command: "echo 'export PAGER=\"most\"' >> /root/.bashrc"

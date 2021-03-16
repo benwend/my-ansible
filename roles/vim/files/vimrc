@@ -1,12 +1,6 @@
 """""
 " VIM configuration
 """
-" https://vimconfig.com/
-" https://github.com/altercation/vim-colors-solarized
-" https://github.com/tpope/vim-pathogen
-" mkdir -p ~/.vim/{autoload,bundle} && curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
-"""""
-
 "--------------------
 " General
 "--------------------

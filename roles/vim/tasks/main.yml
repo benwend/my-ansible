@@ -5,16 +5,17 @@
           pkg:
                   - vim
                   - fonts-powerline
-          install_recommands: no
+          install_recommends: no
           state: latest
-          tags:
-                  - install_packages
+  become: yes
+  tags:
+          - install_packages
 
 - name: Ensure .vim/{autoload,bundle} directory exists
   file:
           path: "{{ item }}"
           state: directory
-          recursive: no
+          recurse: no
           mode: 0750
   loop:
           - "/home/{{ user }}/.vim"
@@ -29,9 +30,9 @@
 - name: Deploy plugins
   git:
           dest: "/home/{{ user }}/.vim/bundle/{{ item.name }}"
-          repo: "{{ item.dir }}"
+          repo: "{{ item.url }}"
           clone: yes
-          update: yse
+          update: yes
           recursive: no
   loop:
           - name: dracula
@@ -52,3 +53,4 @@
           dest: "/root/.vimrc"
           backup: yes
           mode: 0640
+          become: yes

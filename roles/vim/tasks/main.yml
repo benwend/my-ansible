@@ -1,0 +1,54 @@
+---
+
+- name: Install required packages
+  apt:
+          pkg:
+                  - vim
+                  - fonts-powerline
+          install_recommands: no
+          state: latest
+          tags:
+                  - install_packages
+
+- name: Ensure .vim/{autoload,bundle} directory exists
+  file:
+          path: "{{ item }}"
+          state: directory
+          recursive: no
+          mode: 0750
+  loop:
+          - "/home/{{ user }}/.vim"
+          - "/home/{{ user }}/.vim/autoload"
+          - "/home/{{ user }}/.vim/bundle"
+
+- name: Ensure Pathogen is in place
+  get_url:
+          dest: "/home/{{ user }}/.vim/autoload/pathogen.vim"
+          url: https://tpo.pe/pathogen.vim
+
+- name: Deploy plugins
+  git:
+          dest: "/home/{{ user }}/.vim/bundle/{{ item.name }}"
+          repo: "{{ item.dir }}"
+          clone: yes
+          update: yse
+          recursive: no
+  loop:
+          - name: dracula
+            url: https://github.com/dracula/vim
+          - name: solarized
+            url: https://github.com/altercation/vim-colors-solarized
+
+- name: Ensure .vimrc config in place
+  copy:
+          src: vimrc
+          dest: "/home/{{ user }}/.vimrc"
+          backup: yes
+          mode: 0640
+
+- name: Ensure .vimrc config in place for root
+  copy:
+          src: vimrc.root
+          dest: "/root/.vimrc"
+          backup: yes
+          mode: 0640

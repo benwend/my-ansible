@@ -18,7 +18,6 @@
                   - htop
                   - pigz
                   - tree
-                  - vim
                   - sudo
           install_recommends: no
           state: latest
@@ -69,12 +68,6 @@
           dest: "/home/{{ user }}/.bash_aliases"
           mode: 0644
 
-- name: Push vim config file for standard user
-  copy:
-          src: templates/vimrc
-          dest: "/home/{{ user }}/.vimrc"
-          mode: 0644
-
 - name: Push bashrc file for the user root
   copy:
           src: templates/bashrc-root
@@ -85,10 +78,4 @@
   copy:
           src: templates/bash_aliases
           dest: /root/.bash_aliases
-          mode: 0644
-
-- name: Push vim config file for user root
-  copy:
-          src: templates/vimrc
-          dest: /root/.vimrc
           mode: 0644

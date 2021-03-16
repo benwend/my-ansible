@@ -3,6 +3,9 @@
 """
 " https://vimconfig.com/
 " https://github.com/altercation/vim-colors-solarized
+" https://github.com/tpope/vim-pathogen
+" mkdir -p ~/.vim/{autoload,bundle} && curl -so ~/.vim/autoload/pathogen.vim https://raw.github.com/tpope/vim-pathogen/master/autoload/pathogen.vim
+" https://github.com/vim-airline/vim-airline
 """""
 
 "--------------------
@@ -25,14 +28,6 @@ set nospell	" Enable spell-checking
 " Beeper
 set visualbell	" Use visual bell (no beeping)
 set noerrorbells    "  Empêche Vim de beeper
-
-" Coloration
-colorscheme solarized
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
 
 " Find and replace
 set hlsearch	" Highlight all search results

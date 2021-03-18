@@ -2,55 +2,72 @@
 
 - name: Install required packages
   apt:
-          pkg:
-                  - vim
-                  - fonts-powerline
-          install_recommends: no
-          state: latest
-  become: yes
+    pkg:
+      - git
+      - vim
+      - fonts-powerline
+    install_recommends: no
+    state: latest
   tags:
-          - install_packages
+    - install_packages
 
 - name: Ensure .vim/{autoload,bundle} directory exists
   file:
-          path: "{{ item }}"
-          state: directory
-          recurse: no
-          mode: 0750
+    path: "{{ item }}"
+    state: directory
+    recurse: no
+    mode: 0750
+    owner: "{{ user }}"
+    group: "{{ user }}"
   loop:
-          - "/home/{{ user }}/.vim"
-          - "/home/{{ user }}/.vim/autoload"
-          - "/home/{{ user }}/.vim/bundle"
+    - "/home/{{ user }}/.vim"
+    - "/home/{{ user }}/.vim/autoload"
+    - "/home/{{ user }}/.vim/bundle"
+    - "/home/{{ user }}/.vim/plugin"
 
 - name: Ensure Pathogen is in place
   get_url:
-          dest: "/home/{{ user }}/.vim/autoload/pathogen.vim"
-          url: https://tpo.pe/pathogen.vim
+    dest: "/home/{{ user }}/.vim/autoload/pathogen.vim"
+    url: https://tpo.pe/pathogen.vim
+  become: yes
+  become_user: "{{ user }}"
+
+- name: Ensure YAML plugin is in place
+  get_url:
+    dest: "/home/{{ user }}/.vim/plugin/yaml.vim"
+    url: https://www.vim.org/scripts/download_script.php?src_id=2249
+  become: yes
+  become_user: "{{ user }}"
 
 - name: Deploy plugins
   git:
-          dest: "/home/{{ user }}/.vim/bundle/{{ item.name }}"
-          repo: "{{ item.url }}"
-          clone: yes
-          update: yes
-          recursive: no
+    dest: "/home/{{ user }}/.vim/bundle/{{ item.name }}"
+    repo: "{{ item.url }}"
+    clone: yes
+    update: yes
+    recursive: no
+  become: yes
+  become_user: "{{ user }}"
   loop:
-          - name: dracula
-            url: https://github.com/dracula/vim
-          - name: solarized
-            url: https://github.com/altercation/vim-colors-solarized
+    - name: dracula
+      url: https://github.com/dracula/vim
+    - name: solarized
+      url: https://github.com/altercation/vim-colors-solarized
+    - name: indentLine
+      url: https://github.com/Yggdroot/indentLine
 
 - name: Ensure .vimrc config in place
   copy:
-          src: vimrc
-          dest: "/home/{{ user }}/.vimrc"
-          backup: yes
-          mode: 0640
+    src: vimrc
+    dest: "/home/{{ user }}/.vimrc"
+    backup: yes
+    mode: 0640
+    owner: "{{ user }}"
+    group: "{{ user }}"
 
 - name: Ensure .vimrc config in place for root
   copy:
-          src: vimrc.root
-          dest: "/root/.vimrc"
-          backup: yes
-          mode: 0640
-          become: yes
+    src: vimrc.root
+    dest: "/root/.vimrc"
+    backup: yes
+    mode: 0600

@@ -60,3 +60,13 @@ set ruler	" Show row and column ruler information
 set undolevels=100	" Number of undo levels
 set backspace=indent,eol,start	" Backspace behaviour
 set hidden  " Cache les fichiers lors de l'ouverture d'autres fichiers
+
+"--------------------
+" Extra
+"--------------------
+" YAML
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab foldmethod=indent
+au BufNewFile,BufRead *.yaml,*.yml so ~/.vim/plugin/yaml.vim
+
+" IndentLine
+let g:indentLine_char = '⦙'

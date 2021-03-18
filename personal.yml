@@ -1,9 +1,9 @@
 ---
 - hosts: personal
   roles:
-          - common
-          - ssh
-          - personal
-          - devel
-          - php-fpm
-          - docker
+    - common
+    - ssh
+    - personal
+    - devel
+    - php-fpm
+    - docker

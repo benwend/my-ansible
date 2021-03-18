@@ -1,9 +1,9 @@
 ---
 - hosts: webserver
   roles:
-          - php-fpm
-          - nginx
+    - php-fpm
+    - nginx
 
 - hosts: db
   roles:
-          - postgres
+    - postgres

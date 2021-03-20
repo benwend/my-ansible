@@ -1,21 +1,33 @@
 ---
-- name: Backup the dist SSHd config file
-  command: cp -a /etc/ssh/sshd_config /etc/ssh/sshd_config.dist
-  tags: install
+- name: Install required packages
+  apt:
+    pkg:
+      - ssh
+    install_recommends: no
+    state: latest
+  tags:
+    - install_packages
 
-- name: Push the SSHd config file
+- name: Ensure SSHd config is in place
   copy:
-          src: templates/sshd_config
-          dest: /etc/ssh/sshd_config
-          mode: 0644
-  notify: Reload SSH
+    backup: yes
+    src: files/sshd_config
+    dest: /etc/ssh/sshd_config
+    mode: 0644
+  notify: Reload SSHd
 
-- name: Backup the dist SSH client config file
-  command: cp -a /etc/ssh/ssh_config /etc/ssh/ssh_config.dist
-  tags: install
-
-- name: Push the ssh client config file
+- name: Ensure global SSH config is in place
   copy:
-          src: templates/ssh_config
-          dest: /etc/ssh/ssh_config
-          mode: 0644
+    backup: yes
+    src: files/ssh_config
+    dest: /etc/ssh/ssh_config
+    mode: 0644
+
+- name: Ensure user SSH config is in place
+  copy:
+    backup: yes
+    src: "files/ssh.{{ user }}"
+    dest: "/home/{{ user }}/.ssh/config"
+    mode: 0600
+    owner: "{{ user }}"
+    group: "{{ user }}"

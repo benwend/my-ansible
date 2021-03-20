@@ -1,5 +1,5 @@
 ---
-- name: Reload SSH
+- name: Reload SSHd
   systemd:
-          name: ssh
-          state: reloaded
+    name: ssh
+    state: reloaded

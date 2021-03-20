@@ -29,7 +29,6 @@ SyslogFacility AUTH
 LogLevel INFO
 
 # Authentication:
-
 LoginGraceTime 1m
 PermitRootLogin prohibit-password
 StrictModes yes
@@ -86,7 +85,7 @@ TCPKeepAlive yes
 #PermitUserEnvironment no
 #Compression delayed
 ClientAliveInterval 120
-#ClientAliveCountMax 3
+ClientAliveCountMax 3
 #UseDNS no
 PidFile /var/run/sshd.pid
 #MaxStartups 10:30:100

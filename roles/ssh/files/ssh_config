@@ -1,6 +1,6 @@
 Host *
   IdentitiesOnly yes
-  ControlMaster auto
+  Compression yes
   ControlPath ~/.ssh/%r@%h:%p
   ControlPersist 10m
-  Compression yes
+  ControlMaster auto

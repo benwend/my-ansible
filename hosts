@@ -1,19 +1,15 @@
-# This is the default ansible 'hosts' file.
-#
-# It should live in /etc/ansible/hosts
-#
-#   - Comments begin with the '#' character
-#   - Blank lines are ignored
-#   - Groups of hosts are delimited by [header] elements
-#   - You can enter hostnames or ip addresses
-#   - A hostname/ip can be a member of multiple groups
-#
 [debian10]
 osboxes-web     ansible_host=192.168.0.10 ansible_user=root
 osboxes-db      ansible_host=192.168.0.11 ansible_user=root
 osboxes-rmq     ansible_host=192.168.0.12 ansible_user=root
 osboxes-redis   ansible_host=192.168.0.13 ansible_user=root
 osboxes-ansible ansible_host=192.168.0.14 ansible_user=root
+
+[vm:children]
+debian10
+
+[no_reboot]
+osboxes-ansible
 
 [webserver]
 osboxes-web

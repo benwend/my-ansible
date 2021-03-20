@@ -1,12 +1,17 @@
 ---
-uname_s: Linux
-uname_m: x86_64
-
 db_name: symfony 
 db_user: symfony
 db_password: symfony
 
 docker_compose: 1.27.4
 
-timezone: Europe/Paris
 locale: fr_FR.UTF-8
+
+timezone: Europe/Paris
+
+uname_m: x86_64
+uname_s: Linux
+
+user: osboxes
+
+virtualbox_version: 6.1.18

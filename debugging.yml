@@ -1,0 +1,8 @@
+---
+
+- hosts: osboxes-ansible
+  tasks:
+  - debug:
+      var: ansible_facts | type_debug
+  - debug:
+      var: ansible_facts.all_ipv6_addresses

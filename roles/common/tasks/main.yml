@@ -1,54 +1,55 @@
 ---
-- name: Backup the original source list
-  command: cp -a /etc/apt/sources.list /etc/apt/sources.list.dist
-  tags: install
-
-- name: Push the complete source list
+- name: Ensure basic source list is in place
   copy:
-          src: templates/sources.list
-          dest: /etc/apt/sources.list
-          mode: 0644
+    backup: yes
+    src: files/sources.list
+    dest: /etc/apt/sources.list
+    mode: 0644
   notify: Update APT
+  tags:
+    - install_packages
 
-- name: Install the base packages
+- name: Install common packages
   apt:
-          pkg:
-                  - bash-completion
-                  - dos2unix
-                  - htop
-                  - pigz
-                  - tree
-                  - sudo
-          install_recommends: no
-          state: latest
-          update_cache: true
+    pkg:
+      - bash-completion
+      - dos2unix
+      - htop
+      - pigz
+      - tree
+      - sudo
+    install_recommends: no
+    state: latest
+  tags:
+    - install_packages
 
-- name: Add the user in the sudo group
+- name: Ensure user is in the sudo group
   user:
-          name: "{{ user }}"
-          group: sudo
-          append: yes
+    name: "{{ user }}"
+    group: sudo
+    append: yes
 
 - name: Configure Timesyncd
   copy:
-          src: templates/timesyncd.conf
-          dest: /etc/systemd/timesyncd.conf
-          mode: 0644
+    backup: yes
+    src: files/timesyncd.conf
+    dest: /etc/systemd/timesyncd.conf
+    mode: 0644
 
 - name: Set the timezone
   timezone:
-          name: "{{ timezone }}"
+    name: "{{ timezone }}"
   notify: Restart crond
 
 - name: Ensure EN locale exists
   locale_gen:
-          name: "en_US.UTF-8"
-          state: present
+    name: "en_US.UTF-8"
+    state: present
 
 - name: Ensure local locale exists
   locale_gen:
-          name: "{{ locale }}"
-          state: present
+    name: "{{ locale }}"
+    state: present
 
 - name: Set the locale
   command: "localectl set-locale LANG={{ locale }}"
@@ -56,26 +57,30 @@
 - name: Generate the new locale
   command: locale-gen
 
-- name: Push bashrc file for my user
+- name: Ensure bashrc file is in place
   copy:
-          src: templates/bashrc
-          dest: "/home/{{ user }}/.bashrc"
-          mode: 0644
+    backup: yes
+    src: files/bashrc
+    dest: "/home/{{ user }}/.bashrc"
+    mode: 0644
 
-- name: Push alias config file for standard user
+- name: Ensure aliases are in place
   copy:
-          src: templates/bash_aliases
-          dest: "/home/{{ user }}/.bash_aliases"
-          mode: 0644
+    backup: yes
+    src: files/bash_aliases
+    dest: "/home/{{ user }}/.bash_aliases"
+    mode: 0644
 
-- name: Push bashrc file for the user root
+- name: Ensure bashrc is in place for root
   copy:
-          src: templates/bashrc-root
-          dest: /root/.bashrc
-          mode: 0644
+    backup: yes
+    src: files/bashrc.root
+    dest: /root/.bashrc
+    mode: 0600
 
-- name: Push alias config file for user root
+- name: Ensure aliases are in place for root
   copy:
-          src: templates/bash_aliases
-          dest: /root/.bash_aliases
-          mode: 0644
+    backup: yes
+    src: files/bash_aliases
+    dest: /root/.bash_aliases
+    mode: 0600

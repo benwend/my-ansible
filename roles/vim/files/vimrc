@@ -70,3 +70,7 @@ au BufNewFile,BufRead *.yaml,*.yml so ~/.vim/plugin/yaml.vim
 
 " IndentLine
 let g:indentLine_char = '⦙'
+
+" Vim Airline
+"let g:airline#extensions#tabline#enabled=1
+"let g:airline_powerline_fonts=1

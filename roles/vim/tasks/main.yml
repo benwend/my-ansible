@@ -40,21 +40,32 @@
   become_user: "{{ user }}"
 
 - name: Deploy plugins
-  git:
-    dest: "/home/{{ user }}/.vim/bundle/{{ item.name }}"
-    repo: "{{ item.url }}"
-    clone: yes
-    update: yes
-    recursive: no
+  block:
+    - name: Download plugins
+      git:
+        dest: "/home/{{ user }}/.vim/bundle/{{ item.name }}"
+        repo: "{{ item.url }}"
+        clone: yes
+        update: yes
+        recursive: no
+      loop:
+        - name: dracula
+          url: https://github.com/dracula/vim
+        - name: indentLine
+          url: https://github.com/Yggdroot/indentLine
+        - name: solarized
+          url: https://github.com/altercation/vim-colors-solarized
+        - name: vim-airline
+          url: https://github.com/vim-airline/vim-airline
+      register: download
+
+    - name: Install helptags
+      command:
+        cmd: "vim -u NONE -c 'helptags ~/.vim/bundle/{{ item.name }}/doc' -c q"
+      when: item.changed
+      loop: "{{ download.results }}"
   become: yes
   become_user: "{{ user }}"
-  loop:
-    - name: dracula
-      url: https://github.com/dracula/vim
-    - name: solarized
-      url: https://github.com/altercation/vim-colors-solarized
-    - name: indentLine
-      url: https://github.com/Yggdroot/indentLine
 
 - name: Ensure .vimrc config in place
   copy:

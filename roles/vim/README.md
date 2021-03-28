@@ -4,20 +4,20 @@
 
 Liste de liens utiles :
 - Configuration :
- - https://www.arthurkoziel.com/setting-up-vim-for-yaml/index.html
- - https://draculatheme.com/vim
- - https://www.grottedubarbu.fr/vim-yaml-support/
- - https://vimconfig.com/
- - https://github.com/altercation/vim-colors-solarized
- - https://github.com/tpope/vim-pathogen
- - https://github.com/tpope/vim-sensible
- - https://github.com/vim-airline/vim-airline
- - https://github.com/Yggdroot/indentLine
+  - https://www.arthurkoziel.com/setting-up-vim-for-yaml/index.html
+  - https://draculatheme.com/vim
+  - https://www.grottedubarbu.fr/vim-yaml-support/
+  - https://vimconfig.com/
+  - https://github.com/altercation/vim-colors-solarized
+  - https://github.com/tpope/vim-pathogen
+  - https://github.com/tpope/vim-sensible
+  - https://github.com/vim-airline/vim-airline
+  - https://github.com/Yggdroot/indentLine
 - Utilisation :
- - https://learnvimscriptthehardway.stevelosh.com/
- - http://vimdoc.sourceforge.net/htmldoc/fold.html
+  - https://learnvimscriptthehardway.stevelosh.com/
+  - http://vimdoc.sourceforge.net/htmldoc/fold.html
 - e-book:
- - https://vimebook.com/fr
+  - https://vimebook.com/fr
 
 ### NeoVIM
 

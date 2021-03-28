@@ -13,8 +13,12 @@
   apt:
     pkg:
       - bash-completion
+      - ccze
+      - dfc
       - dos2unix
       - htop
+      - lnav
+      - needrestart
       - pigz
       - tree
       - sudo

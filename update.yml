@@ -8,6 +8,8 @@
         state: latest
         update_cache: yes
         only_upgrade: yes
+        autoremove: yes
+        autoclean: yes
 
 - hosts: symfony
   tasks:
@@ -17,16 +19,11 @@
         state: latest
         update_cache: yes
         only_upgrade: yes
+        autoremove: yes
+        autoclean: yes
       register: apt_update_status
 
     - name: Reboot when packages were updated
       reboot:
         post_reboot_delay: 60
       when: apt_update_status.changed
-
-- hosts: debian10
-  tasks:
-    - name: Remove packages not needed anymore
-      apt:
-        autoremove: yes
-        autoclean: yes

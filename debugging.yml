@@ -2,7 +2,19 @@
 
 - hosts: osboxes-ansible
   tasks:
-  - debug:
-      var: ansible_facts | type_debug
-  - debug:
-      var: ansible_facts.all_ipv6_addresses
+    - name: Print ansible facts type
+      debug:
+        var: ansible_facts | type_debug
+
+    - name: Print ansible facts
+      debug:
+        var: ansible_facts
+
+    - name: Set locale var
+      set_fact:
+        locale = {{ locale }}
+
+    - name: test
+      debug:
+        var: ansible_facts.env.LANG
+      when: ansible_facts.env.LANG != locale

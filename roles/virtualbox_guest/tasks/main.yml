@@ -1,0 +1,33 @@
+---
+- name: Install the guest virtualbox packages
+  apt:
+    pkg:
+      - build-essential
+      - dkms
+      - module-assistant
+      - virtualbox-guest-additions-iso
+    install_recommends: no
+    state: present
+  notify: Prepare OS
+  tags: additions
+
+- name: Mount additions
+  mount:
+    src: /dev/sr0
+    path: /media/cdrom0
+    state: mounted
+    fstype: iso9660
+    opts: ro,noauto
+  tags: additions
+
+- name: Disable cups-browsed
+  systemd:
+    service: cups
+    enabled: no
+    state: stopped
+
+- name: Disable cups
+  systemd:
+    service: cups
+    enabled: no
+    state: stopped

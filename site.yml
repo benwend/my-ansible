@@ -1,7 +1,7 @@
 ---
 - hosts: webserver
   roles:
-    - php-fpm
+    - php_fpm
     - nginx
 
 - hosts: db

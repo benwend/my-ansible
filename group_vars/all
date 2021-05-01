@@ -12,6 +12,4 @@ timezone: Europe/Paris
 uname_m: x86_64
 uname_s: Linux
 
-user: osboxes
-
 virtualbox_version: 6.1.18

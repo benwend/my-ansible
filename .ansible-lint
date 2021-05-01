@@ -1,0 +1,11 @@
+---
+
+exclude_paths:
+  - .git
+  - .venv
+
+warn_list:  # or 'skip_list' to silence them completely
+  - unnamed-task  # All tasks should be named
+
+skip_list:
+  - package-latest

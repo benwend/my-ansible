@@ -55,11 +55,14 @@
     name: "{{ locale }}"
     state: present
 
+- name: Set locale var
+  set_fact:
+    locale = {{ locale }}
+
 - name: Set the locale
   command: "localectl set-locale LANG={{ locale }}"
-
-- name: Generate the new locale
-  command: locale-gen
+  when: ansible_facts.env.LANG != locale
+  notify: Generate locale
 
 - name: Ensure bashrc file is in place
   copy:

@@ -1,73 +1,78 @@
 ---
+
 - name: Install light-NGINX and modules
   apt:
-          pkg:
-                  - nginx-light
-                  - git
-          state: latest
-          update_cache: true
+    pkg:
+      - nginx-light
+      - git
+    state: latest
+    update_cache: true
 
 - name: Push Symfony virtual host configuration
   copy:
-          src: templates/symfony
-          dest: /etc/nginx/sites-available/symfony
-          mode: 0644
-          owner: root
+    src: templates/symfony
+    dest: /etc/nginx/sites-available/symfony
+    mode: 0644
+    owner: root
 
 - name: Create Symfony log repository
   file:
-          path: /var/log/nginx/symfony
-          state: directory
+    path: /var/log/nginx/symfony
+    state: directory
+    owner: nginx
+    group: adm
+    mode: 0755
 
 - name: Check our configuration
   command: nginx -t
   register: result
-  ignore_errors: True
+  ignore_errors: true
+  changed_when: false
 
 - name: Rolling back - Removing our log repository
   file:
-          path: /var/log/nginx/symfony
-          state: absent
+    path: /var/log/nginx/symfony
+    state: absent
   when: result is failed
 
 - name: Rolling back - Removing our virtualhost
   file:
-          path: /etc/nginx/sites-available/symfony
-          state: absent
+    path: /etc/nginx/sites-available/symfony
+    state: absent
   when: result is failed
 
 - name: Rolling back - Ending playbook
   fail:
-          msg: "ERROR: Nginx configuration file is not valid. Please check that before re-running the playbook."
+    msg: "ERROR: Nginx configuration file is not valid. Please check that before re-running the playbook."
   when: result is failed
 
 - name: Create web Symfony repository (env=dev)
   file:
-          path: /var/www/symfony
-          state: directory
-          mode: 0755
-          owner: www-data
-          group: www-data
+    path: /var/www/symfony
+    state: directory
+    mode: 0755
+    owner: www-data
+    group: www-data
 
 - name: Push PHP test file
   copy:
-          src: files/index.php
-          dest: /var/www/symfony/index.php
-          mode: 0644
-          owner: www-data
-          group: www-data
+    src: files/index.php
+    dest: /var/www/symfony/index.php
+    mode: 0644
+    owner: www-data
+    group: www-data
 
 - name: Activate symfony virtualhost
   file:
-          src: /etc/nginx/sites-available/symfony
-          dest: /etc/nginx/sites-enabled/symfony
-          state: link
+    src: /etc/nginx/sites-available/symfony
+    dest: /etc/nginx/sites-enabled/symfony
+    state: link
   notify:
-          - Reload nginx
+    - Reload nginx
 
 - name: Disable the default Nginx virtualhost
   file:
-          dest: /etc/nginx/sites-enabled/default
-          state: absent
+    dest: /etc/nginx/sites-enabled/default
+    state: absent
   notify:
-          - Reload nginx
+    - Reload nginx

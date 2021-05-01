@@ -5,5 +5,5 @@
     - ssh
     - personal
     - devel
-    - php-fpm
+    - php_fpm
     - docker

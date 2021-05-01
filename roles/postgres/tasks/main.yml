@@ -8,7 +8,6 @@
 
 - name: Backup the dist PostgreSQL configuration
   command: cp -a /etc/postgresql/11/main/postgresql.conf /etc/postgresql/11/main/postgresql.conf.bck
-  tags: install
 
 - name: Push the PostgreSQL Configuration
   copy:
@@ -19,7 +18,6 @@
 
 - name: Backup the dist pg_hba Configuration
   command: cp -a /etc/postgresql/11/main/pg_hba.conf /etc/postgresql/11/main/pg_hba.conf.bck
-  tags: install
 
 - name: Push the pg_hba configuration
   copy:
@@ -35,7 +33,7 @@
           name: postgresql
           state: started
   register: result
-  ignore_errors: True
+  ignore_errors: true
 
 - name: Rolling back - Push the postgres config
   command: cp -a /etc/postgresql/11/main/pg_hba.conf.bck /etc/postgresql/11/main/pg_hba.conf

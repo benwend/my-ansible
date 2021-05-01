@@ -21,9 +21,9 @@
         only_upgrade: yes
         autoremove: yes
         autoclean: yes
-      register: apt_update_status
+      notify: Reboot
 
-    - name: Reboot when packages were updated
+  handlers:
+    - name: Reboot
       reboot:
         post_reboot_delay: 60
-      when: apt_update_status.changed

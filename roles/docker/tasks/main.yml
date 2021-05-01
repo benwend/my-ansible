@@ -34,11 +34,8 @@
                   - docker-ce-cli
                   - containerd.io
           state: present
-          update_cache: True
-          install_recommends: no
-
-- name: Check docker installation
-  command: docker run hello-world
+          update_cache: true
+          install_recommends: false
 
 - name: Download Docker-compose
   get_url:

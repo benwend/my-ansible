@@ -12,3 +12,6 @@
     name: cron
     state: restarted
     daemon_reload: yes
+
+- name: Generate locale
+  command: locale-gen

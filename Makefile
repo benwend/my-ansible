@@ -1,27 +1,24 @@
 SHELL := /usr/bin/env bash
+VENV := .venv/bin
 
 .PHONY = install
-
-all: install init test
 
 install:
 	apt update
 	apt upgrade -y
-	apt full-upgrade -y
-	apt install -y git openssh-server openssh-client gnupg2 apt-transport-https python2
-	echo "deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main" > /etc/apt/sources.list.d/ansible.list
-	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-	apt update
-	apt install -y ansible
+	apt install -y git openssh-server openssh-client python3 python3-pip
+	pip3 install -U pip
+	pip3 install virtualenv
 
 init:
-	cp -a hosts /etc/ansible
-	ssh-keygen -t rsa
-	ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.0.{10,11,12,13,14}
+	#ssh-keygen -t rsa
+	#ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.0.{10,11,12,13,14}
+	python3 -m virtualenv .venv
+	"${VENV}"/pip install -U pip ansible
 
 test:
-	ansible all -m ping --one-line
+	"${VENV}/"ansible -i inventory.ini all -m ping --one-line
 
 dev:
-	apt install -y yamllint
-	cp snippets/pre-commit .git/hook/pre-commit
+	"${VENV}"/pip install -U ansible-lint yamllint
+	cp snippets/pre-commit .git/hooks/pre-commit

@@ -1,0 +1,8 @@
+---
+
+- name: Testing playbook role
+  hosts: vm
+  tasks:
+    - name: Delay shutting down the remote node
+      community.general.shutdown:
+        delay: 60

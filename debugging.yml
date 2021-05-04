@@ -1,6 +1,6 @@
 ---
 
-- hosts: osboxes-ansible
+- hosts: all
   tasks:
     - name: Print ansible facts type
       debug:

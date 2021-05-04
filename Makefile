@@ -1,24 +1,23 @@
 SHELL := /usr/bin/env bash
-VENV := .venv/bin
+VENV := .venv-test
+HOME := .
 
-.PHONY = install
+.PHONY = install init test dev
 
 install:
-	apt update
-	apt upgrade -y
-	apt install -y git openssh-server openssh-client python3 python3-pip
-	pip3 install -U pip
-	pip3 install virtualenv
+	apt update && apt upgrade -y
+	apt install -y git openssh-server openssh-client python3 python3-pip python3-venv
+	pip3 install -U pip setuptools
 
 init:
-	#ssh-keygen -t rsa
-	#ssh-copy-id -i ~/.ssh/id_rsa.pub root@192.168.0.{10,11,12,13,14}
-	python3 -m virtualenv .venv
-	"${VENV}"/pip install -U pip ansible
+	python3 -m venv "${VENV}"
+	"${VENV}"/bin/pip install -U pip setuptools
+	"${VENV}"/bin/pip install -r "${HOME}"/requirements.txt
+	mkdir -p "${HOME}"/logs
 
 test:
-	"${VENV}/"ansible -i inventory.ini all -m ping --one-line
+	"${VENV}/bin/"ansible-playbook "${HOME}"/debugging.yml --check
 
 dev:
-	"${VENV}"/pip install -U ansible-lint yamllint
-	cp snippets/pre-commit .git/hooks/pre-commit
+	"${VENV}"/bin/pip install -r "${HOME}"/requirements-dev.txt
+	cp "${HOME}"/snippets/pre-commit "${HOME}"/.git/hooks/pre-commit

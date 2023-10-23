@@ -5,6 +5,7 @@ extends: default
 ignore: |
   .venv
   .git
+  my-ansible.code-workspace
 
 yaml-files:
   - '*.yaml'
@@ -12,7 +13,13 @@ yaml-files:
   - '.yamllint'
 
 rules:
+  braces:
+    max-spaces-inside: 1
+    level: error
+  brackets:
+    max-spaces-inside: 1
+    level: error
   line-length: disable
   truthy:
-    allowed-values: ['true', 'false', 'yes', 'no']
+    allowed-values: ['true', 'false']
     check-keys: true

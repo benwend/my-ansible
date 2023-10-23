@@ -3,9 +3,14 @@
 exclude_paths:
   - .git
   - .venv
+  - .travis.yml
+  - my-ansible.code-workspace
+  - tests
 
 warn_list:  # or 'skip_list' to silence them completely
   - unnamed-task  # All tasks should be named
+  - no-changed-when  # Commands should not change things if nothing needs doing
 
 skip_list:
   - package-latest
+  - git-latest

@@ -1,6 +1,6 @@
 ---
 
-- name: Testing playbook role
+- name: Playbook to shutdown virtual machines
   hosts: vm
   tasks:
     - name: Delay shutting down the remote node

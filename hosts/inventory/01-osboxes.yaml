@@ -1,0 +1,59 @@
+---
+all:
+  hosts:
+    osboxes-web:
+      ansible_host: 192.168.0.10
+    osboxes-db:
+      ansible_host: 192.168.0.11
+    osboxes-rmq:
+      ansible_host: 192.168.0.12
+    osboxes-redis:
+      ansible_host: 192.168.0.13
+    osboxes-ansible:
+      ansible_host: 192.168.0.14
+  vars:
+    ansible_python_interpreter: python3
+
+  children:
+    debian10:
+      hosts:
+        osboxes-web:
+        osboxes-db:
+        osboxes-rmq:
+        osboxes-redis:
+        osboxes-ansible:
+
+    vm:
+      children:
+        debian10:
+
+    no_reboot:
+      hosts:
+        osboxes-ansible:
+
+    webserver:
+      hosts:
+        osboxes-web:
+
+    db:
+      hosts:
+        osboxes-db:
+
+    amq:
+      hosts:
+        osboxes-rmq:
+
+    redis:
+      hosts:
+        osboxes-redis:
+
+    ansible:
+      children:
+        no_reboot:
+
+    symfony:
+      children:
+        webserver:
+        db:
+        amq:
+        redis:
